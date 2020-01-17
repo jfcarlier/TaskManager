@@ -29,6 +29,7 @@ namespace TaskManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerList"));
+            services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
