@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TaskManager.Data.Provider.Sql;
+using AutoMapper;
 
 namespace TaskManager.API
 {
@@ -28,6 +29,7 @@ namespace TaskManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerList"));
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
 

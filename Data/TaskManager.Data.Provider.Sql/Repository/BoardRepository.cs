@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TaskManager.Core.Models;
@@ -8,6 +9,13 @@ namespace TaskManager.Data.Provider.Sql.Repository
 {
     public class BoardRepository : IBoardRepository
     {
+        private readonly TaskManagerContext context;
+        private readonly IMapper mapper;
+        public BoardRepository(TaskManagerContext context, IMapper mapper)
+        {
+            this.context = context;
+            this.mapper = mapper;
+        }
         public BoardDTO Create(BoardDTO board)
         {
             throw new NotImplementedException();
