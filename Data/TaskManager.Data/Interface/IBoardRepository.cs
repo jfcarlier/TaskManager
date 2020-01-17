@@ -16,5 +16,7 @@ namespace TaskManager.Data.Interface
         int Delete(int id);
                 
         void Update(BoardDTO board);
+
+        int Save();
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TaskManager.Core.Models;
 using TaskManager.Data.Interface;
+using TaskManager.Data.Provider.Sql.Models;
 
 namespace TaskManager.Data.Provider.Sql.Repository
 {
@@ -18,27 +19,51 @@ namespace TaskManager.Data.Provider.Sql.Repository
         }
         public BoardDTO Create(BoardDTO board)
         {
-            throw new NotImplementedException();
+            if(board == null)
+            {
+                return null;
+            }
+
+            var boardDb = mapper.Map<Board>(board);
+            context.Add(boardDb);
+            Save();
+
+            return mapper.Map<BoardDTO>(boardDb);
         }
 
         public int Delete(int id)
         {
-            throw new NotImplementedException();
+            var boardDb = context.Boards.Find(id);
+            context.Boards.Remove(boardDb);
+            return Save();
         }
 
-        public IEnumerable<BoardDTO> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<BoardDTO> GetAll() => mapper.Map<IEnumerable<BoardDTO>>(context.Boards);
 
-        public BoardDTO GetById(int id)
+        public BoardDTO GetById(int id) => mapper.Map<BoardDTO>(context.Boards.Find(id));
+
+        public int Save()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Update(BoardDTO board)
         {
-            throw new NotImplementedException();
+            if(board == null)
+            {
+                return;
+            }
+
+            var boardDb = context.Boards.Find(board.Id);
+            context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<Board>(board));
+            Save();
         }
     }
 }

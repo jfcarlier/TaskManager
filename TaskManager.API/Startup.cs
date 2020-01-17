@@ -28,8 +28,8 @@ namespace TaskManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerList"));
-            services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
+            services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerDb"));
+            //services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
