@@ -7,7 +7,7 @@ using System.Text;
 namespace TaskManager.Data.Provider.Sql.Models
 {
     [Table("Tasks")]
-    public class Task
+    public class TaskDb
     {
         [Key]
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace TaskManager.Data.Provider.Sql.Models
         [ForeignKey(nameof(Section))]
         public int SectionId { get; set; }
 
-        public Section Section { get; set; }
+        public SectionDb Section { get; set; }
     }
 }

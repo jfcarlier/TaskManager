@@ -26,7 +26,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
                 return null;
             }
 
-            var taskDb = mapper.Map<Task>(task);
+            var taskDb = mapper.Map<TaskDb>(task);
             context.Add(taskDb);
             Save();
 
@@ -64,7 +64,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var taskDb = context.Tasks.Find(task.Id);
-            context.Entry(taskDb).CurrentValues.SetValues(mapper.Map<Task>(task));
+            context.Entry(taskDb).CurrentValues.SetValues(mapper.Map<TaskDb>(task));
             Save();
         }
     }

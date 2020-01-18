@@ -7,7 +7,7 @@ using System.Text;
 namespace TaskManager.Data.Provider.Sql.Models
 {
     [Table("Boards")]
-    public class Board
+    public class BoardDb
     {
         [Key]
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace TaskManager.Data.Provider.Sql.Models
         [StringLength(50)]
         public string Name { get; set; }
 
-        public ICollection<Section> Sections { get; set; }
+        public ICollection<SectionDb> Sections { get; set; }
     }
 }

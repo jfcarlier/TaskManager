@@ -13,8 +13,8 @@ namespace TaskManager.Data.Provider.Sql
         {
         }
 
-        public DbSet<Board> Boards { get; set; }
-        public DbSet<Section> Sections { get; set; }
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<BoardDb> Boards { get; set; }
+        public DbSet<SectionDb> Sections { get; set; }
+        public DbSet<TaskDb> Tasks { get; set; }
     }
 }

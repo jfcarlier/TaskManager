@@ -25,7 +25,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
                 return null;
             }
 
-            var sectionDb = mapper.Map<Section>(section);
+            var sectionDb = mapper.Map<SectionDb>(section);
             context.Add(sectionDb);
             Save();
 
@@ -63,7 +63,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var sectionDb = context.Sections.Find(section.Id);
-            context.Entry(sectionDb).CurrentValues.SetValues(mapper.Map<Section>(section));
+            context.Entry(sectionDb).CurrentValues.SetValues(mapper.Map<SectionDb>(section));
             Save();
         }
     }

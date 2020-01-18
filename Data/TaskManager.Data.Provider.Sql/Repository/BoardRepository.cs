@@ -26,7 +26,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
                 return null;
             }
 
-            var boardDb = mapper.Map<Board>(board);
+            var boardDb = mapper.Map<BoardDb>(board);
             context.Add(boardDb);
             Save();
 
@@ -64,7 +64,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var boardDb = context.Boards.Find(board.Id);
-            context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<Board>(board));
+            context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<BoardDb>(board));
             Save();
         }
     }

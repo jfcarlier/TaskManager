@@ -23,14 +23,14 @@ namespace TaskManager.API.Mapping
             CreateMap<TaskAPI, TaskDTO>();
 
             //Mapping DTO to Data
-            CreateMap<BoardDTO, Board>();
-            CreateMap<SectionDTO, Section>();
-            CreateMap<TaskDTO, Task>();
+            CreateMap<BoardDTO, BoardDb>();
+            CreateMap<SectionDTO, SectionDb>();
+            CreateMap<TaskDTO, TaskDb>();
 
             //Mapping Data to DTO
-            CreateMap<Board, BoardDTO>();
-            CreateMap<Section, SectionDTO>();
-            CreateMap<Task, TaskDTO>();
+            CreateMap<BoardDb, BoardDTO>();
+            CreateMap<SectionDb, SectionDTO>();
+            CreateMap<TaskDb, TaskDTO>();
         }
     }
 }
