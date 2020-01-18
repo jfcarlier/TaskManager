@@ -51,6 +51,7 @@ namespace TaskManager.Business
 
         public BoardDTO CreateBoard(BoardDTO board)
         {                   
+            
             sectionRepository.Create(new SectionDTO()
             {
                 Name = "Todo",
@@ -70,7 +71,13 @@ namespace TaskManager.Business
             return boardRepository.Create(board);
         }
 
-        public void Update(BoardDTO board)
+        //public TaskDTO CreateTask(int idBoard, TaskDTO task)
+        //{
+        //    var temp = boardRepository.GetById(idBoard);
+
+        //}
+
+        public void UpdateBoard(BoardDTO board)
         {
             boardRepository.Update(board);            
         }

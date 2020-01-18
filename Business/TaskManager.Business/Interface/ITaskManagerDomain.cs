@@ -11,6 +11,6 @@ namespace TaskManager.Business.Interface
         BoardDTO CreateBoard(BoardDTO board);
         IEnumerable<SectionDTO> GetAllSections();
         BoardDTO GetBoardById(int id);
-        public void Update(BoardDTO board);
+        public void UpdateBoard(BoardDTO board);
     }
 }

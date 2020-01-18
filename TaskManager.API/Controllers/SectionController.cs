@@ -25,7 +25,7 @@ namespace TaskManager.API.Controllers
 
         // GET: api/Section
         [HttpGet]
-        public ActionResult<List<SectionAPI>> GetSections() => mapper.Map<IEnumerable<SectionAPI>>(domain.GetAllSections()).ToList();
+        public ActionResult<IEnumerable<SectionAPI>> GetSections() => mapper.Map<IEnumerable<SectionAPI>>(domain.GetAllSections()).ToList();
 
         // GET: api/Section/5
         [HttpGet("{id}", Name = "GetS")]

@@ -29,7 +29,7 @@ namespace TaskManager.API.Controllers
         // GET: api/Board
         [HttpGet]
         
-        public ActionResult<List<BoardAPI>> GetBoards() => mapper.Map<IEnumerable<BoardAPI>>(domain.GetAllBoards()).ToList();
+        public ActionResult<IEnumerable<BoardAPI>> GetBoards() => mapper.Map<IEnumerable<BoardAPI>>(domain.GetAllBoards()).ToList();
         
 
         // GET: api/Board/5
@@ -63,10 +63,9 @@ namespace TaskManager.API.Controllers
                 return BadRequest();
             }
 
-            domain.Update(mapper.Map<BoardDTO>(board));
+            domain.UpdateBoard(mapper.Map<BoardDTO>(board));
 
             return Ok();
         }
-
     }
 }

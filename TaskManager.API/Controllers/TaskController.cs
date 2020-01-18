@@ -29,7 +29,7 @@ namespace TaskManager.API.Controllers
 
         // POST: api/Task
         [HttpPost]
-        public ActionResult<TaskAPI> CreateBoard(TaskAPI board)
+        public ActionResult<TaskAPI> CreateTask(TaskAPI board)
         {
             return Ok();
         }
