@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TaskManager.API.Models;
 using TaskManager.Core.Models;
+using TaskManager.Data.Provider.Sql.Models;
 
 namespace TaskManager.API.Mapping
 {
@@ -21,6 +21,16 @@ namespace TaskManager.API.Mapping
             CreateMap<BoardAPI, BoardDTO>();
             CreateMap<SectionAPI, SectionDTO>();
             CreateMap<TaskAPI, TaskDTO>();
+
+            //Mapping DTO to Data
+            CreateMap<BoardDTO, Board>();
+            CreateMap<SectionDTO, Section>();
+            CreateMap<TaskDTO, Task>();
+
+            //Mapping Data to DTO
+            CreateMap<Board, BoardDTO>();
+            CreateMap<Section, SectionDTO>();
+            CreateMap<Task, TaskDTO>();
         }
     }
 }

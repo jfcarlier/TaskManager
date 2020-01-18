@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager.Data.Provider.Sql.Repository
 {
-    public class BoardRepository : IBoardRepository
+    public class BoardInMemoryRepository : IBoardRepository
     {
         private readonly TaskManagerContext context;
         private readonly IMapper mapper;
-        public BoardRepository(TaskManagerContext context, IMapper mapper)
+        public BoardInMemoryRepository(TaskManagerContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
         public BoardDTO Create(BoardDTO board)
         {
-            if(board == null)
+            if (board == null)
             {
                 return null;
             }
@@ -40,7 +40,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             return Save();
         }
 
-        public IEnumerable<BoardDTO> GetAll() => mapper.Map<IEnumerable<BoardDTO>>(context.Boards);
+        public IEnumerable<BoardDTO> GetAll() => mapper.Map<IEnumerable<BoardDTO>>(context.Boards.Include(u => u.Sections));
 
         public BoardDTO GetById(int id) => mapper.Map<BoardDTO>(context.Boards.Find(id));
 
@@ -58,7 +58,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
 
         public void Update(BoardDTO board)
         {
-            if(board == null)
+            if (board == null)
             {
                 return;
             }

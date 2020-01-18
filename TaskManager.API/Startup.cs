@@ -13,6 +13,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TaskManager.Data.Provider.Sql;
 using AutoMapper;
+using TaskManager.Data.Interface;
+using TaskManager.Data.Provider.Sql.Repository;
+using TaskManager.Business;
+using TaskManager.Business.Interface;
 
 namespace TaskManager.API
 {
@@ -28,10 +32,16 @@ namespace TaskManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddScoped<IBoardRepository, BoardRepository>();
+            //services.AddScoped<IBoardRepository, BoardInMemoryRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskManagerDomain, TaskManagerDomain>();
             services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerDb"));
             //services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllers();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

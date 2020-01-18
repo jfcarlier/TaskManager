@@ -9,6 +9,8 @@ namespace TaskManager.API.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int BoardId { get; set; }
+        public BoardAPI Board { get; set; }
         public IEnumerable<TaskAPI> Tasks { get; set; }
     }
 }
