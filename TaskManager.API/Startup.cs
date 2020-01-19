@@ -43,8 +43,16 @@ namespace TaskManager.API
             services.AddScoped<ITaskManagerDomain, TaskManagerDomain>();
 
             //ID DbContext
-            services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerDb"));
-            //services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
+            //En changeant la valeur de "UseSqlServer" dans le fichier appsettings.json, on choisis quel Db utiliser
+            //Si on utilise SqlServer, ne pas oublier de changer la connectionString dans le même fichier
+            if (Configuration.GetSection("UseSqlServer").Value == "true")
+            {                
+                services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
+            }
+            else
+            {
+                services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerDb"));
+            }
 
             //ID AutoMapper
             services.AddAutoMapper(typeof(Startup));
