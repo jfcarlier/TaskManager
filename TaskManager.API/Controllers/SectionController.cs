@@ -28,28 +28,10 @@ namespace TaskManager.API.Controllers
         public ActionResult<IEnumerable<SectionAPI>> GetSections() => mapper.Map<IEnumerable<SectionAPI>>(domain.GetAllSections()).ToList();
 
         // GET: api/Section/5
-        [HttpGet("{id}", Name = "GetS")]
-        public string GetS(int id)
+        [HttpGet("{id}", Name = "GetSectionById")]
+        public ActionResult<SectionAPI> GetSectionById(int id)
         {
-            return "value";
-        }
-
-        // POST: api/Section
-        [HttpPost]
-        public void PostS([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Section/5
-        [HttpPut("{id}")]
-        public void PutS(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void DeleteS(int id)
-        {
-        }
+            return mapper.Map<SectionAPI>(domain.GetSectionById(id));
+        }        
     }
 }

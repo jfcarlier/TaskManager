@@ -93,5 +93,9 @@ namespace TaskManager.Business
         {
             return sectionRepository.GetAll();
         }
+        public SectionDTO GetSectionById(int id)
+        {
+            return sectionRepository.GetById(id);
+        }
     }
 }

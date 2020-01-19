@@ -64,13 +64,13 @@ namespace TaskManager.API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteTask(int id)
+        public ActionResult<string> DeleteTask(int id)
         {
             var response = domain.DeleteTask(id);
 
             if(response > 0)
             {
-                return Ok();
+                return $"{response} Task deleted";
             }
             return BadRequest();            
         }
