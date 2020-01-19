@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 using TaskManager.Data.Interface;
 using TaskManager.Data.Provider.Sql.Models;
@@ -19,7 +20,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             this.context = context;
             this.mapper = mapper;
         }
-        public SectionDTO Create(SectionDTO section)
+        public async Task<SectionDTO> Create(SectionDTO section)
         {
             if(section == null)
             {
@@ -27,28 +28,28 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var sectionDb = mapper.Map<SectionDb>(section);
-            context.Add(sectionDb);
-            Save();
+            await context.AddAsync(sectionDb);
+            await Save();
 
             return mapper.Map<SectionDTO>(sectionDb);
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            var sectionDb = context.Sections.Find(id);
+            var sectionDb = await context.Sections.FindAsync(id);
             context.Sections.Remove(sectionDb);
-            return Save();
+            return await Save();
         }
 
-        public IEnumerable<SectionDTO> GetAll() => mapper.Map<IEnumerable<SectionDTO>>(context.Sections);
+        public async Task<IEnumerable<SectionDTO>> GetAll() => mapper.Map<IEnumerable<SectionDTO>>(await context.Sections.ToListAsync());
 
-        public SectionDTO GetById(int id) => mapper.Map<SectionDTO>(context.Sections.Find(id));
+        public async Task<SectionDTO> GetById(int id) => mapper.Map<SectionDTO>(await context.Sections.FindAsync(id));
 
-        public int Save()
+        public async Task<int> Save()
         {
             try
             {
-                return context.SaveChanges();
+                return await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -56,15 +57,15 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public int Update(SectionDTO section)
+        public async Task<int> Update(SectionDTO section)
         {
-            var sectionDb = context.Sections.Find(section.Id);
+            var sectionDb = await context.Sections.FindAsync(section.Id);
 
             if (sectionDb != null)
             {
                 context.Entry(sectionDb).CurrentValues.SetValues(mapper.Map<SectionDb>(section));
             }
-            return Save();
+            return await Save();
         }
     }
 }

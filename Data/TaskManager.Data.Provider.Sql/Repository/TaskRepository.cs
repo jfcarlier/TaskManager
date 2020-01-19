@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 using TaskManager.Data.Interface;
 using TaskManager.Data.Provider.Sql.Models;
@@ -19,7 +21,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             this.mapper = mapper;
         }
 
-        public TaskDTO Create(TaskDTO task)
+        public async Task<TaskDTO> Create(TaskDTO task)
         {
             if(task == null)
             {
@@ -27,28 +29,28 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var taskDb = mapper.Map<TaskDb>(task);
-            context.Add(taskDb);
-            Save();
+            await context.AddAsync(taskDb);
+            await Save();
 
             return mapper.Map<TaskDTO>(taskDb);
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            var taskDb = context.Tasks.Find(id);
+            var taskDb = await context.Tasks.FindAsync(id);
             context.Tasks.Remove(taskDb);
-            return Save();
+            return await Save();
         }
 
-        public IEnumerable<TaskDTO> GetAll() => mapper.Map<IEnumerable<TaskDTO>>(context.Tasks);
+        public async Task<IEnumerable<TaskDTO>> GetAll() => mapper.Map<IEnumerable<TaskDTO>>(await context.Tasks.ToListAsync());
 
-        public TaskDTO GetById(int id) => mapper.Map<TaskDTO>(context.Tasks.Find(id));
+        public async Task<TaskDTO> GetById(int id) => mapper.Map<TaskDTO>(await context.Tasks.FindAsync(id));
 
-        public int Save()
+        public async Task<int> Save()
         {
             try
             {
-                return context.SaveChanges();
+                return await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -56,16 +58,16 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public int Update(TaskDTO task)
+        public async Task<int> Update(TaskDTO task)
         {            
-            var taskDb = context.Tasks.Find(task.Id);
+            var taskDb = await context.Tasks.FindAsync(task.Id);
 
             if (taskDb != null)
             {
                 context.Entry(taskDb).CurrentValues.SetValues(mapper.Map<TaskDb>(task));
             }
 
-            return Save();
+            return await Save();
         }
     }
 }

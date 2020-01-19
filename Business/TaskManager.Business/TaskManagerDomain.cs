@@ -26,23 +26,23 @@ namespace TaskManager.Business
             this.taskRepository = taskRepository;
         }
 
-        public IEnumerable<BoardDTO> GetAllBoards() => boardRepository.GetAll();
-        public BoardDTO GetBoardById(int id) => boardRepository.GetById(id);
-        public BoardDTO CreateBoard(BoardDTO board)
+        public async Task<IEnumerable<BoardDTO>> GetAllBoards() => await boardRepository.GetAll();
+        public async Task<BoardDTO> GetBoardById(int id) => await boardRepository.GetById(id);
+        public async Task<BoardDTO> CreateBoard(BoardDTO board)
         {
-            var boardDb = boardRepository.Create(board);
+            var boardDb = await boardRepository.Create(board);
 
-            sectionRepository.Create(new SectionDTO()
+            await sectionRepository.Create(new SectionDTO()
             {
                 Name = "Todo",
                 BoardId = boardDb.Id
             });
-            sectionRepository.Create(new SectionDTO()
+            await sectionRepository.Create(new SectionDTO()
             {
                 Name = "Doing",
                 BoardId = boardDb.Id
             });
-            sectionRepository.Create(new SectionDTO()
+            await sectionRepository.Create(new SectionDTO()
             {
                 Name = "Done",
                 BoardId = boardDb.Id
@@ -50,9 +50,9 @@ namespace TaskManager.Business
 
             return boardDb;
         }
-        public int UpdateBoard(BoardDTO board)
+        public async Task<int> UpdateBoard(BoardDTO board)
         {
-            return boardRepository.Update(board);
+            return await boardRepository.Update(board);
         }
 
         //public IEnumerable<BoardDTO> GetAllBoardsInMemory()
@@ -74,35 +74,36 @@ namespace TaskManager.Business
         //    return temp;
         //}        
 
-        public IEnumerable<TaskDTO> GetAllTasks() => taskRepository.GetAll();
-        public TaskDTO GetTaskById(int id) => taskRepository.GetById(id);
-        public TaskDTO CreateTask(int idBoard, TaskDTO task)
+        public async Task<IEnumerable<TaskDTO>> GetAllTasks() => await taskRepository.GetAll();
+        public async Task<TaskDTO> GetTaskById(int id) => await taskRepository.GetById(id);
+        public async Task<TaskDTO> CreateTask(int idBoard, TaskDTO task)
         {
-            var sectionTodo = sectionRepository.GetAll().Where(id => id.BoardId == idBoard).FirstOrDefault(n => n.Name == "Todo");
-            if(sectionTodo == null)
+            var sections = await sectionRepository.GetAll();
+            var sectionTodo = sections.Where(id => id.BoardId == idBoard).FirstOrDefault(n => n.Name == "Todo");
+            if (sectionTodo == null)
             {
                 return null;
             }
 
             task.SectionId = sectionTodo.Id;
-            return taskRepository.Create(task);
+            return await taskRepository.Create(task);
         }
-        public int UpdateTask(TaskDTO task)
+        public async Task<int> UpdateTask(TaskDTO task)
         {
-            return taskRepository.Update(task);
+            return await taskRepository.Update(task);
         }
-        public int DeleteTask(int id)
+        public async Task<int> DeleteTask(int id)
         {
-            return taskRepository.Delete(id);
+            return await taskRepository.Delete(id);
         }
 
-        public IEnumerable<SectionDTO> GetAllSections()
+        public async Task<IEnumerable<SectionDTO>> GetAllSections()
         {
-            return sectionRepository.GetAll();
+            return await sectionRepository.GetAll();
         }
-        public SectionDTO GetSectionById(int id)
+        public async Task<SectionDTO> GetSectionById(int id)
         {
-            return sectionRepository.GetById(id);
+            return await sectionRepository.GetById(id);
         }
     }
 }

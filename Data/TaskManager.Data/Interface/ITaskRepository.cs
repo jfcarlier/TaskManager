@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
 {
     public interface ITaskRepository
     {
-        IEnumerable<TaskDTO> GetAll();
+        Task<IEnumerable<TaskDTO>> GetAll();
 
-        TaskDTO GetById(int id);
+        Task<TaskDTO> GetById(int id);
 
-        TaskDTO Create(TaskDTO task);
+        Task<TaskDTO> Create(TaskDTO task);
 
-        int Delete(int id);
+        Task<int> Delete(int id);
 
-        int Update(TaskDTO task);
+        Task<int> Update(TaskDTO task);
 
-        int Save();
+        Task<int> Save();
     }
 }

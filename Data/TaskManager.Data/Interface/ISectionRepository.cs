@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
 {
     public interface ISectionRepository
     {
-        IEnumerable<SectionDTO> GetAll();
+        Task<IEnumerable<SectionDTO>> GetAll();
 
-        SectionDTO GetById(int id);
+        Task<SectionDTO> GetById(int id);
 
-        SectionDTO Create(SectionDTO section);
+        Task<SectionDTO> Create(SectionDTO section);
 
-        int Delete(int id);
+        Task<int> Delete(int id);
 
-        int Update(SectionDTO section);
+        Task<int> Update(SectionDTO section);
 
-        int Save();
+        Task<int> Save();
     }
 }

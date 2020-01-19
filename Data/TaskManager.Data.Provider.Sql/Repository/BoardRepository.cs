@@ -7,6 +7,7 @@ using TaskManager.Data.Interface;
 using TaskManager.Data.Provider.Sql.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace TaskManager.Data.Provider.Sql.Repository
 {
@@ -19,7 +20,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
             this.context = context;
             this.mapper = mapper;
         }
-        public BoardDTO Create(BoardDTO board)
+        public async Task<BoardDTO> Create(BoardDTO board)
         {
             if (board == null)
             {
@@ -27,28 +28,28 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
 
             var boardDb = mapper.Map<BoardDb>(board);
-            context.Add(boardDb);
-            Save();
+            await context.AddAsync(boardDb);
+            await Save();
 
             return mapper.Map<BoardDTO>(boardDb);
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            var boardDb = context.Boards.Find(id);
+            var boardDb = await context.Boards.FindAsync(id);
             context.Boards.Remove(boardDb);
-            return Save();
+            return await Save();
         }
 
-        public IEnumerable<BoardDTO> GetAll() => mapper.Map<IEnumerable<BoardDTO>>(context.Boards);
+        public async Task<IEnumerable<BoardDTO>> GetAll() => mapper.Map<IEnumerable<BoardDTO>>(await context.Boards.ToListAsync());
 
-        public BoardDTO GetById(int id) => mapper.Map<BoardDTO>(context.Boards.Find(id));
+        public async Task<BoardDTO> GetById(int id) => mapper.Map<BoardDTO>(await context.Boards.FindAsync(id));
 
-        public int Save()
+        public async Task<int> Save()
         {
             try
             {
-                return context.SaveChanges();
+                return await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -56,15 +57,15 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public int Update(BoardDTO board)
+        public async Task<int> Update(BoardDTO board)
         {
-            var boardDb = context.Boards.Find(board.Id);
+            var boardDb = await context.Boards.FindAsync(board.Id);
 
             if (boardDb != null)
             {
                 context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<BoardDb>(board));
             }
-            return Save();
+            return await Save();
         }
     }
 }

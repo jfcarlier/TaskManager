@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,13 +26,13 @@ namespace TaskManager.API.Controllers
 
         // GET: api/Task
         [HttpGet]
-        public ActionResult<IEnumerable<TaskAPI>> GetTasks() => mapper.Map<IEnumerable<TaskAPI>>(domain.GetAllTasks()).ToList();
+        public async Task<ActionResult<IEnumerable<TaskAPI>>> GetTasks() => mapper.Map<IEnumerable<TaskAPI>>(await domain.GetAllTasks()).ToList();
 
         // GET: api/Task/5
         [HttpGet("{id}", Name = "GetTaskById")]
-        public ActionResult<TaskAPI> GetTaskById(int id)
+        public async Task<ActionResult<TaskAPI>> GetTaskById(int id)
         {
-            var task = mapper.Map<TaskAPI>(domain.GetTaskById(id));
+            var task = mapper.Map<TaskAPI>(await domain.GetTaskById(id));
 
             if(task == null)
             {
@@ -43,9 +44,9 @@ namespace TaskManager.API.Controllers
 
         // POST: api/Task
         [HttpPost("board/{id}")]
-        public ActionResult<TaskAPI> CreateTask(int id,TaskAPI task)
+        public async Task<ActionResult<TaskAPI>> CreateTask(int id,TaskAPI task)
         {
-            var taskTmp = domain.CreateTask(id, mapper.Map<TaskDTO>(task));
+            var taskTmp = await domain.CreateTask(id, mapper.Map<TaskDTO>(task));
 
             if(taskTmp == null)
             {
@@ -57,14 +58,14 @@ namespace TaskManager.API.Controllers
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
-        public ActionResult<string> UpdateTask(int id, TaskAPI task)
+        public async Task<ActionResult<string>> UpdateTask(int id, TaskAPI task)
         {
             if(id != task.Id)
             {
                 return BadRequest();
             }
 
-            var response = domain.UpdateTask(mapper.Map<TaskDTO>(task));
+            var response = await domain.UpdateTask(mapper.Map<TaskDTO>(task));
             
             if(response > 0)
             {
@@ -76,9 +77,9 @@ namespace TaskManager.API.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public ActionResult<string> DeleteTask(int id)
+        public async Task<ActionResult<string>> DeleteTask(int id)
         {
-            var response = domain.DeleteTask(id);
+            var response = await domain.DeleteTask(id);
 
             if(response > 0)
             {

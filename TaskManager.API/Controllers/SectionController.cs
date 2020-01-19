@@ -25,13 +25,13 @@ namespace TaskManager.API.Controllers
 
         // GET: api/Section
         [HttpGet]
-        public ActionResult<IEnumerable<SectionAPI>> GetSections() => mapper.Map<IEnumerable<SectionAPI>>(domain.GetAllSections()).ToList();
+        public async Task<ActionResult<IEnumerable<SectionAPI>>> GetSections() => mapper.Map<IEnumerable<SectionAPI>>(await domain.GetAllSections()).ToList();
 
         // GET: api/Section/5
         [HttpGet("{id}", Name = "GetSectionById")]
-        public ActionResult<SectionAPI> GetSectionById(int id)
+        public async Task<ActionResult<SectionAPI>> GetSectionById(int id)
         {
-            var section = mapper.Map<SectionAPI>(domain.GetSectionById(id));
+            var section = mapper.Map<SectionAPI>(await domain.GetSectionById(id));
 
             if(section == null)
             {

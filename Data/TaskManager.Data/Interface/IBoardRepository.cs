@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
 {
     public interface IBoardRepository
     {
-        IEnumerable<BoardDTO> GetAll();
+        Task<IEnumerable<BoardDTO>> GetAll();
 
-        BoardDTO GetById(int id);
+        Task<BoardDTO> GetById(int id);
 
-        BoardDTO Create(BoardDTO board);
+        Task<BoardDTO> Create(BoardDTO board);
 
-        int Delete(int id);
+        Task<int> Delete(int id);
                 
-        int Update(BoardDTO board);
+        Task<int> Update(BoardDTO board);
 
-        int Save();
+        Task<int> Save();
     }
 }

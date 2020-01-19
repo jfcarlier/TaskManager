@@ -29,14 +29,14 @@ namespace TaskManager.API.Controllers
         // GET: api/Board
         [HttpGet]
         
-        public ActionResult<IEnumerable<BoardAPI>> GetBoards() => mapper.Map<IEnumerable<BoardAPI>>(domain.GetAllBoards()).ToList();
+        public async Task<ActionResult<IEnumerable<BoardAPI>>> GetBoards() => mapper.Map<IEnumerable<BoardAPI>>(await domain.GetAllBoards()).ToList();
         
 
         // GET: api/Board/5
         [HttpGet("{id}", Name = "GetBoardById")]
-        public ActionResult<BoardAPI> GetBoardById(int id)
+        public async Task<ActionResult<BoardAPI>> GetBoardById(int id)
         {
-            var board = mapper.Map<BoardAPI>(domain.GetBoardById(id));
+            var board = mapper.Map<BoardAPI>(await domain.GetBoardById(id));
 
             if (board == null)
             {
@@ -48,26 +48,26 @@ namespace TaskManager.API.Controllers
 
         // POST: api/Board
         [HttpPost]
-        public ActionResult<BoardAPI> CreateBoard(BoardAPI board)
+        public async Task<ActionResult<BoardAPI>> CreateBoard(BoardAPI board)
         {
             if(board == null)
             {
                 return BadRequest();
             }
-            var boardTmp = domain.CreateBoard(mapper.Map<BoardDTO>(board));
+            var boardTmp = await domain.CreateBoard(mapper.Map<BoardDTO>(board));
             return mapper.Map<BoardAPI>(boardTmp);
         }
 
         // PUT: api/Board/5
         [HttpPut("{id}")]
-        public ActionResult<string> UpdateBoard(int id, BoardAPI board)
+        public async Task<ActionResult<string>> UpdateBoard(int id, BoardAPI board)
         {
             if (id != board.Id)
             {
                 return BadRequest();
             }
 
-            var response = domain.UpdateBoard(mapper.Map<BoardDTO>(board));
+            var response = await domain.UpdateBoard(mapper.Map<BoardDTO>(board));
 
             if(response > 0)
             {

@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Business.Interface
 {
     public interface ITaskManagerDomain
     {
-        IEnumerable<BoardDTO> GetAllBoards();
-        BoardDTO GetBoardById(int id);
-        BoardDTO CreateBoard(BoardDTO board);
-        int UpdateBoard(BoardDTO board);
+        Task<IEnumerable<BoardDTO>> GetAllBoards();
+        Task<BoardDTO> GetBoardById(int id);
+        Task<BoardDTO> CreateBoard(BoardDTO board);
+        Task<int> UpdateBoard(BoardDTO board);
 
-        IEnumerable<SectionDTO> GetAllSections();
-        SectionDTO GetSectionById(int id);
+        Task<IEnumerable<SectionDTO>> GetAllSections();
+        Task<SectionDTO> GetSectionById(int id);
 
-        IEnumerable<TaskDTO> GetAllTasks();
-        TaskDTO GetTaskById(int id);
-        TaskDTO CreateTask(int idBoard, TaskDTO task);
-        int UpdateTask(TaskDTO task);
-        int DeleteTask(int id);
+        Task<IEnumerable<TaskDTO>> GetAllTasks();
+        Task<TaskDTO> GetTaskById(int id);
+        Task<TaskDTO> CreateTask(int idBoard, TaskDTO task);
+        Task<int> UpdateTask(TaskDTO task);
+        Task<int> DeleteTask(int id);
     }
 }
