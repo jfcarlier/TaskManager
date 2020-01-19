@@ -30,24 +30,25 @@ namespace TaskManager.Business
         public BoardDTO GetBoardById(int id) => boardRepository.GetById(id);
         public BoardDTO CreateBoard(BoardDTO board)
         {
+            var boardDb = boardRepository.Create(board);
 
             sectionRepository.Create(new SectionDTO()
             {
                 Name = "Todo",
-                BoardId = board.Id
+                BoardId = boardDb.Id
             });
             sectionRepository.Create(new SectionDTO()
             {
                 Name = "Doing",
-                BoardId = board.Id
+                BoardId = boardDb.Id
             });
             sectionRepository.Create(new SectionDTO()
             {
                 Name = "Done",
-                BoardId = board.Id
+                BoardId = boardDb.Id
             });
 
-            return boardRepository.Create(board);
+            return boardDb;
         }
         public int UpdateBoard(BoardDTO board)
         {
