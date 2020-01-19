@@ -48,10 +48,10 @@ namespace TaskManager.API.Controllers
 
         // POST: api/Board
         [HttpPost]
-        public ActionResult<BoardDb> CreateBoard(BoardAPI board)
+        public ActionResult<BoardAPI> CreateBoard(BoardAPI board)
         {            
             var boardTmp = domain.CreateBoard(mapper.Map<BoardDTO>(board));
-            return mapper.Map<BoardDb>(boardTmp);
+            return mapper.Map<BoardAPI>(boardTmp);
         }
 
         // PUT: api/Board/5

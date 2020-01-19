@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.API.Models;
+using TaskManager.Business.Interface;
 using TaskManager.Core.Models;
 
 namespace TaskManager.API.Controllers
@@ -13,37 +14,65 @@ namespace TaskManager.API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        // GET: api/Task
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ITaskManagerDomain domain;
+        private readonly IMapper mapper;
+
+        public TaskController(ITaskManagerDomain domain, IMapper mapper)
         {
-            return new string[] { "value1", "value2" };
+            this.domain = domain;
+            this.mapper = mapper;
         }
 
+        // GET: api/Task
+        [HttpGet]
+        public ActionResult<IEnumerable<TaskAPI>> GetTasks() => mapper.Map<IEnumerable<TaskAPI>>(domain.GetAllTasks()).ToList();
+
         // GET: api/Task/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetTaskById")]
+        public ActionResult<TaskAPI> GetTaskById(int id)
         {
-            return "value";
+            var task = mapper.Map<TaskAPI>(domain.GetTaskById(id));
+
+            if(task == null)
+            {
+                return NotFound();
+            }
+
+            return task;
         }
 
         // POST: api/Task
-        [HttpPost]
-        public ActionResult<TaskAPI> CreateTask(TaskAPI board)
+        [HttpPost("board/{id}")]
+        public ActionResult<TaskAPI> CreateTask(int id,TaskAPI task)
         {
-            return Ok();
+            var taskTmp = domain.CreateTask(id, mapper.Map<TaskDTO>(task));
+            return mapper.Map<TaskAPI>(taskTmp);
         }
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult UpdateTask(int id, TaskAPI task)
         {
+            if(id != task.Id)
+            {
+                return BadRequest();
+            }
+
+            domain.UpdateTask(mapper.Map<TaskDTO>(task));
+            return Ok();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult DeleteTask(int id)
         {
+            var response = domain.DeleteTask(id);
+
+            if(response > 0)
+            {
+                return Ok();
+            }
+            return BadRequest();            
         }
     }
 }

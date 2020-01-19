@@ -8,9 +8,14 @@ namespace TaskManager.Business.Interface
     public interface ITaskManagerDomain
     {
         IEnumerable<BoardDTO> GetAllBoards();
-        BoardDTO CreateBoard(BoardDTO board);
-        IEnumerable<SectionDTO> GetAllSections();
         BoardDTO GetBoardById(int id);
-        public void UpdateBoard(BoardDTO board);
+        BoardDTO CreateBoard(BoardDTO board);
+        void UpdateBoard(BoardDTO board);
+        IEnumerable<SectionDTO> GetAllSections();
+        IEnumerable<TaskDTO> GetAllTasks();
+        TaskDTO GetTaskById(int id);
+        TaskDTO CreateTask(int idBoard, TaskDTO task);
+        void UpdateTask(TaskDTO task);
+        int DeleteTask(int id);
     }
 }

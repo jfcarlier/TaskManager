@@ -27,31 +27,10 @@ namespace TaskManager.Business
         }
 
         public IEnumerable<BoardDTO> GetAllBoards() => boardRepository.GetAll();
-
         public BoardDTO GetBoardById(int id) => boardRepository.GetById(id);
-
-        public IEnumerable<BoardDTO> GetAllBoardsInMemory()
-        {
-            var temp = boardRepository.GetAll();
-            var temp2 = sectionRepository.GetAll();
-            foreach(var section in temp)
-            {
-                
-                var temp3 = new List<SectionDTO>();
-                foreach (var item in temp2)
-                {
-                    if(item.BoardId == section.Id)
-                    {
-                        temp3.Add(item);
-                    }
-                }
-            }
-            return temp;
-        }
-
         public BoardDTO CreateBoard(BoardDTO board)
-        {                   
-            
+        {
+
             sectionRepository.Create(new SectionDTO()
             {
                 Name = "Todo",
@@ -70,16 +49,44 @@ namespace TaskManager.Business
 
             return boardRepository.Create(board);
         }
-
-        //public TaskDTO CreateTask(int idBoard, TaskDTO task)
-        //{
-        //    var temp = boardRepository.GetById(idBoard);
-
-        //}
-
         public void UpdateBoard(BoardDTO board)
         {
-            boardRepository.Update(board);            
+            boardRepository.Update(board);
+        }
+
+        //public IEnumerable<BoardDTO> GetAllBoardsInMemory()
+        //{
+        //    var temp = boardRepository.GetAll();
+        //    var temp2 = sectionRepository.GetAll();
+        //    foreach(var section in temp)
+        //    {
+                
+        //        var temp3 = new List<SectionDTO>();
+        //        foreach (var item in temp2)
+        //        {
+        //            if(item.BoardId == section.Id)
+        //            {
+        //                temp3.Add(item);
+        //            }
+        //        }
+        //    }
+        //    return temp;
+        //}        
+
+        public IEnumerable<TaskDTO> GetAllTasks() => taskRepository.GetAll();
+        public TaskDTO GetTaskById(int id) => taskRepository.GetById(id);
+        public TaskDTO CreateTask(int idBoard, TaskDTO task)
+        {
+            var sectionTodo = sectionRepository.GetAll().Where(id => id.BoardId == idBoard).FirstOrDefault(n => n.Name == "Todo");
+            return taskRepository.Create(task);
+        }
+        public void UpdateTask(TaskDTO task)
+        {
+            taskRepository.Update(task);
+        }
+        public int DeleteTask(int id)
+        {
+            return taskRepository.Delete(id);
         }
 
         public IEnumerable<SectionDTO> GetAllSections()
