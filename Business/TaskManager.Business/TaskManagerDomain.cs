@@ -62,7 +62,7 @@ namespace TaskManager.Business
         //    var temp2 = sectionRepository.GetAll();
         //    foreach(var section in temp)
         //    {
-                
+
         //        var temp3 = new List<SectionDTO>();
         //        foreach (var item in temp2)
         //        {
@@ -105,11 +105,34 @@ namespace TaskManager.Business
 
             return await taskRepository.Update(task);
         }
+
+        public async Task<int> ChanseSectionTask(int id, TaskDTO task)
+        {
+            var boardIsLock = await VerifyIsLocked(task.Id);
+
+            if (boardIsLock.IsLocked)
+            {
+                return 0;
+            }
+            var taskOrigine = await taskRepository.GetById(id);
+            var sectionOrigine = await sectionRepository.GetById(taskOrigine.SectionId);
+            var sectionTask = await sectionRepository.GetById(task.SectionId);
+
+            if (sectionOrigine.BoardId == sectionTask.BoardId)
+            {
+                if (((sectionOrigine.Name == "Todo") && (sectionTask.Name == "Done")) || ((sectionOrigine.Name == "Done") && (sectionTask.Name == "Todo")))
+                {
+                    return 0;
+                }
+                return await taskRepository.Update(task);
+            }
+            return 0;
+        }
         public async Task<int> DeleteTask(int id)
         {
-            var board = await VerifyIsLocked(id);
+            var boardIsLock = await VerifyIsLocked(id);
 
-            if (board.IsLocked)
+            if (boardIsLock.IsLocked)
             {
                 return 0;
             }

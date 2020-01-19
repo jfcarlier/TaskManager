@@ -42,7 +42,7 @@ namespace TaskManager.API.Controllers
             return task;
         }
 
-        // POST: api/Task
+        // POST: api/Task/Board/2
         [HttpPost("board/{id}")]
         public async Task<ActionResult<TaskAPI>> CreateTask(int id,TaskAPI task)
         {
@@ -70,6 +70,25 @@ namespace TaskManager.API.Controllers
             if(response > 0)
             {
                 return $"{response} Task updated";
+            }
+
+            return BadRequest();
+        }
+
+        //PUT: api/Task/changesection/2
+        [HttpPut("ChangeSection/{id}")]
+        public async Task<ActionResult<string>> ChangeSectionTask(int id, TaskAPI task)
+        {
+            if (id != task.Id)
+            {
+                return BadRequest();
+            }
+
+            var response = await domain.ChanseSectionTask(id, mapper.Map<TaskDTO>(task));
+
+            if (response > 0)
+            {
+                return $"{response} SectionTask updated";
             }
 
             return BadRequest();

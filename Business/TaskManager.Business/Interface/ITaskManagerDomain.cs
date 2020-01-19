@@ -20,6 +20,7 @@ namespace TaskManager.Business.Interface
         Task<TaskDTO> GetTaskById(int id);
         Task<TaskDTO> CreateTask(int idBoard, TaskDTO task);
         Task<int> UpdateTask(TaskDTO task);
+        Task<int> ChanseSectionTask(int id, TaskDTO task);
         Task<int> DeleteTask(int id);
     }
 }
