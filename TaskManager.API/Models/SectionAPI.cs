@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace TaskManager.API.Models
         [StringLength(50)]
         public string Name { get; set; }
         public int BoardId { get; set; }
+
+        [JsonIgnore]
         public BoardAPI Board { get; set; }
         public IEnumerable<TaskAPI> Tasks { get; set; }
     }

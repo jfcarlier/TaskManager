@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,5 +21,10 @@ namespace TaskManager.API.Models
         [Required]
         [StringLength(500)]
         public string Description { get; set; }
+
+        public int SectionId { get; set; }
+        
+        [JsonIgnore]
+        public SectionAPI Section { get; set; }
     }
 }

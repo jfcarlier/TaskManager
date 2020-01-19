@@ -33,8 +33,7 @@ namespace TaskManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IBoardRepository, BoardRepository>();
-            //services.AddScoped<IBoardRepository, BoardInMemoryRepository>();
+            services.AddScoped<IBoardRepository, BoardRepository>();            
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskManagerDomain, TaskManagerDomain>();

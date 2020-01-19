@@ -49,23 +49,31 @@ namespace TaskManager.API.Controllers
         // POST: api/Board
         [HttpPost]
         public ActionResult<BoardAPI> CreateBoard(BoardAPI board)
-        {            
+        {
+            if(board == null)
+            {
+                return BadRequest();
+            }
             var boardTmp = domain.CreateBoard(mapper.Map<BoardDTO>(board));
             return mapper.Map<BoardAPI>(boardTmp);
         }
 
         // PUT: api/Board/5
         [HttpPut("{id}")]
-        public ActionResult UpdateBoard(int id, BoardAPI board)
+        public ActionResult<string> UpdateBoard(int id, BoardAPI board)
         {
             if (id != board.Id)
             {
                 return BadRequest();
             }
 
-            domain.UpdateBoard(mapper.Map<BoardDTO>(board));
+            var response = domain.UpdateBoard(mapper.Map<BoardDTO>(board));
 
-            return Ok();
+            if(response > 0)
+            {
+                return $"{response} Board updated";
+            }
+            return BadRequest();
         }
     }
 }

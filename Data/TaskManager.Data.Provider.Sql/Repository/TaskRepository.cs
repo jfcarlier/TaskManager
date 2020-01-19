@@ -56,16 +56,16 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public void Update(TaskDTO task)
-        {
-            if (task == null)
+        public int Update(TaskDTO task)
+        {            
+            var taskDb = context.Tasks.Find(task.Id);
+
+            if (taskDb != null)
             {
-                return;
+                context.Entry(taskDb).CurrentValues.SetValues(mapper.Map<TaskDb>(task));
             }
 
-            var taskDb = context.Tasks.Find(task.Id);
-            context.Entry(taskDb).CurrentValues.SetValues(mapper.Map<TaskDb>(task));
-            Save();
+            return Save();
         }
     }
 }

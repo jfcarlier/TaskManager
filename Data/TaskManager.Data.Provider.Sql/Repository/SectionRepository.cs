@@ -56,16 +56,15 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public void Update(SectionDTO section)
+        public int Update(SectionDTO section)
         {
-            if(section == null)
-            {
-                return;
-            }
-
             var sectionDb = context.Sections.Find(section.Id);
-            context.Entry(sectionDb).CurrentValues.SetValues(mapper.Map<SectionDb>(section));
-            Save();
+
+            if (sectionDb != null)
+            {
+                context.Entry(sectionDb).CurrentValues.SetValues(mapper.Map<SectionDb>(section));
+            }
+            return Save();
         }
     }
 }

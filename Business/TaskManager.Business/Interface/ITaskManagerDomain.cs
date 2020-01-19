@@ -10,7 +10,7 @@ namespace TaskManager.Business.Interface
         IEnumerable<BoardDTO> GetAllBoards();
         BoardDTO GetBoardById(int id);
         BoardDTO CreateBoard(BoardDTO board);
-        void UpdateBoard(BoardDTO board);
+        int UpdateBoard(BoardDTO board);
 
         IEnumerable<SectionDTO> GetAllSections();
         SectionDTO GetSectionById(int id);
@@ -18,7 +18,7 @@ namespace TaskManager.Business.Interface
         IEnumerable<TaskDTO> GetAllTasks();
         TaskDTO GetTaskById(int id);
         TaskDTO CreateTask(int idBoard, TaskDTO task);
-        void UpdateTask(TaskDTO task);
+        int UpdateTask(TaskDTO task);
         int DeleteTask(int id);
     }
 }

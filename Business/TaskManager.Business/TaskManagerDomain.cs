@@ -49,9 +49,9 @@ namespace TaskManager.Business
 
             return boardRepository.Create(board);
         }
-        public void UpdateBoard(BoardDTO board)
+        public int UpdateBoard(BoardDTO board)
         {
-            boardRepository.Update(board);
+            return boardRepository.Update(board);
         }
 
         //public IEnumerable<BoardDTO> GetAllBoardsInMemory()
@@ -78,11 +78,17 @@ namespace TaskManager.Business
         public TaskDTO CreateTask(int idBoard, TaskDTO task)
         {
             var sectionTodo = sectionRepository.GetAll().Where(id => id.BoardId == idBoard).FirstOrDefault(n => n.Name == "Todo");
+            if(sectionTodo == null)
+            {
+                return null;
+            }
+
+            task.SectionId = sectionTodo.Id;
             return taskRepository.Create(task);
         }
-        public void UpdateTask(TaskDTO task)
+        public int UpdateTask(TaskDTO task)
         {
-            taskRepository.Update(task);
+            return taskRepository.Update(task);
         }
         public int DeleteTask(int id)
         {

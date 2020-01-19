@@ -31,7 +31,14 @@ namespace TaskManager.API.Controllers
         [HttpGet("{id}", Name = "GetSectionById")]
         public ActionResult<SectionAPI> GetSectionById(int id)
         {
-            return mapper.Map<SectionAPI>(domain.GetSectionById(id));
+            var section = mapper.Map<SectionAPI>(domain.GetSectionById(id));
+
+            if(section == null)
+            {
+                return NotFound();
+            }
+
+            return section;
         }        
     }
 }

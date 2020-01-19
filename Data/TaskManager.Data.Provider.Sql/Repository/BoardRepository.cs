@@ -21,7 +21,7 @@ namespace TaskManager.Data.Provider.Sql.Repository
         }
         public BoardDTO Create(BoardDTO board)
         {
-            if(board == null)
+            if (board == null)
             {
                 return null;
             }
@@ -56,16 +56,15 @@ namespace TaskManager.Data.Provider.Sql.Repository
             }
         }
 
-        public void Update(BoardDTO board)
+        public int Update(BoardDTO board)
         {
-            if(board == null)
-            {
-                return;
-            }
-
             var boardDb = context.Boards.Find(board.Id);
-            context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<BoardDb>(board));
-            Save();
+
+            if (boardDb != null)
+            {
+                context.Entry(boardDb).CurrentValues.SetValues(mapper.Map<BoardDb>(board));
+            }
+            return Save();
         }
     }
 }

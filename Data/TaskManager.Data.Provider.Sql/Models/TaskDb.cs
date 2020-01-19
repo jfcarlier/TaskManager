@@ -25,7 +25,6 @@ namespace TaskManager.Data.Provider.Sql.Models
 
         [ForeignKey(nameof(Section))]
         public int SectionId { get; set; }
-
         public SectionDb Section { get; set; }
     }
 }

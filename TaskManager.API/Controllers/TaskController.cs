@@ -46,20 +46,32 @@ namespace TaskManager.API.Controllers
         public ActionResult<TaskAPI> CreateTask(int id,TaskAPI task)
         {
             var taskTmp = domain.CreateTask(id, mapper.Map<TaskDTO>(task));
+
+            if(taskTmp == null)
+            {
+                return BadRequest();
+            }
+
             return mapper.Map<TaskAPI>(taskTmp);
         }
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
-        public ActionResult UpdateTask(int id, TaskAPI task)
+        public ActionResult<string> UpdateTask(int id, TaskAPI task)
         {
             if(id != task.Id)
             {
                 return BadRequest();
             }
 
-            domain.UpdateTask(mapper.Map<TaskDTO>(task));
-            return Ok();
+            var response = domain.UpdateTask(mapper.Map<TaskDTO>(task));
+            
+            if(response > 0)
+            {
+                return $"{response} Task updated";
+            }
+
+            return BadRequest();
         }
 
         // DELETE: api/ApiWithActions/5
