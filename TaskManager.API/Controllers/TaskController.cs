@@ -44,6 +44,7 @@ namespace TaskManager.API.Controllers
 
         // POST: api/Task/Board/2
         [HttpPost("board/{id}")]
+        //id correspond à l'id du tableau dans lequel se trouve la tâche
         public async Task<ActionResult<TaskAPI>> CreateTask(int id,TaskAPI task)
         {
             var taskTmp = await domain.CreateTask(id, mapper.Map<TaskDTO>(task));

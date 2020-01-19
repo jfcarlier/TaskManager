@@ -10,6 +10,7 @@ using TaskManager.Data.Provider.Sql.Models;
 
 namespace TaskManager.Data.Provider.Sql.Repository
 {
+    //CRUD
     public class SectionRepository : ISectionRepository
     {
         private readonly TaskManagerContext context;

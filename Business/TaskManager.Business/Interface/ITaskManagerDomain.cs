@@ -6,6 +6,7 @@ using TaskManager.Core.Models;
 
 namespace TaskManager.Business.Interface
 {
+    //Interface pour le domain
     public interface ITaskManagerDomain
     {
         Task<IEnumerable<BoardDTO>> GetAllBoards();

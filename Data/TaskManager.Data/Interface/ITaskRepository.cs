@@ -6,6 +6,7 @@ using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
 {
+    //Interface TaskRepository
     public interface ITaskRepository
     {
         Task<IEnumerable<TaskDTO>> GetAll();

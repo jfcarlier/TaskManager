@@ -33,14 +33,39 @@ namespace TaskManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //ID interface => Repository
             services.AddScoped<IBoardRepository, BoardRepository>();            
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+
+            //ID Interface => Domain
             services.AddScoped<ITaskManagerDomain, TaskManagerDomain>();
+
+            //ID DbContext
             services.AddDbContext<TaskManagerContext>(opt => opt.UseInMemoryDatabase("TaskManagerDb"));
             //services.AddDbContext<TaskManagerContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("TaskManagerDbContext")));
+
+            //ID AutoMapper
             services.AddAutoMapper(typeof(Startup));
-            services.AddSwaggerDocument();
+
+            //ID Swagger via NSwag
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "TaskManager API";
+                    document.Info.Description = "A Task Management ASP.NET Core web API ";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Carlier Jean-François",
+                        Email = "carlier.jeanfrancois.info@gmail.com",
+                        Url = "https://github.com/jfcarlier/TaskManager"
+                    };                    
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +87,7 @@ namespace TaskManager.API
                 endpoints.MapControllers();
             });
 
+            //Ajout pour utiliser l'interface de Swagger
             app.UseOpenApi();
             app.UseSwaggerUi3();
         }

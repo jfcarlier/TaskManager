@@ -17,6 +17,7 @@ namespace TaskManager.API.Models
 
         public bool IsLocked { get; set; }
 
+        //Utilisation de JSonIgnore pour ne pas afficher certaines données dans le JSON
         [JsonIgnore]
         public IEnumerable<SectionAPI> Sections { get; set; }
     }

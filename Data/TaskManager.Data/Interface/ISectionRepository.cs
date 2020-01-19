@@ -6,6 +6,7 @@ using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
 {
+    //Interface SectionRepository
     public interface ISectionRepository
     {
         Task<IEnumerable<SectionDTO>> GetAll();

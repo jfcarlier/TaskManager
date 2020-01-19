@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Data.Provider.Sql.Repository
 {
+    //CRUD
     public class BoardRepository : IBoardRepository
     {
         private readonly TaskManagerContext context;

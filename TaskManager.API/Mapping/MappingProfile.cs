@@ -10,6 +10,7 @@ namespace TaskManager.API.Mapping
 {
     public class MappingProfile : Profile
     {
+        //Route qu'AutoMapper va utiliser dans le projet
         public MappingProfile()
         {
             //Mapping DTO to API

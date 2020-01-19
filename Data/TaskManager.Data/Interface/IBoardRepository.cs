@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using TaskManager.Core.Models;
 
 namespace TaskManager.Data.Interface
-{
+{ 
+    //Interface BoardRepository
     public interface IBoardRepository
     {
         Task<IEnumerable<BoardDTO>> GetAll();
