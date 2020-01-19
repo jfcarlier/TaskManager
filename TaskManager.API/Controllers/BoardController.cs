@@ -75,5 +75,23 @@ namespace TaskManager.API.Controllers
             }
             return BadRequest();
         }
+
+        // PUT: api/Board/Security/5
+        [HttpPut("security/{id}")]
+        public async Task<ActionResult<string>> ChangeSecurity(int id, BoardAPI board)
+        {
+            if (id != board.Id)
+            {
+                return BadRequest();
+            }
+
+            var response = await domain.UpdateBoard(mapper.Map<BoardDTO>(board));
+
+            if (response > 0)
+            {
+                return $"{response} security Board updated";
+            }
+            return BadRequest();
+        }
     }
 }

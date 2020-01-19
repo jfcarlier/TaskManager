@@ -30,6 +30,7 @@ namespace TaskManager.Business
         public async Task<BoardDTO> GetBoardById(int id) => await boardRepository.GetById(id);
         public async Task<BoardDTO> CreateBoard(BoardDTO board)
         {
+            board.IsLocked = false;
             var boardDb = await boardRepository.Create(board);
 
             await sectionRepository.Create(new SectionDTO()
@@ -78,6 +79,11 @@ namespace TaskManager.Business
         public async Task<TaskDTO> GetTaskById(int id) => await taskRepository.GetById(id);
         public async Task<TaskDTO> CreateTask(int idBoard, TaskDTO task)
         {
+            var board = await boardRepository.GetById(idBoard);
+            if (board.IsLocked)
+            {
+                return null;
+            }
             var sections = await sectionRepository.GetAll();
             var sectionTodo = sections.Where(id => id.BoardId == idBoard).FirstOrDefault(n => n.Name == "Todo");
             if (sectionTodo == null)
@@ -90,10 +96,24 @@ namespace TaskManager.Business
         }
         public async Task<int> UpdateTask(TaskDTO task)
         {
+            var board = await VerifyIsLocked(task.Id);
+
+            if (board.IsLocked)
+            {
+                return 0;
+            }
+
             return await taskRepository.Update(task);
         }
         public async Task<int> DeleteTask(int id)
         {
+            var board = await VerifyIsLocked(id);
+
+            if (board.IsLocked)
+            {
+                return 0;
+            }
+
             return await taskRepository.Delete(id);
         }
 
@@ -104,6 +124,14 @@ namespace TaskManager.Business
         public async Task<SectionDTO> GetSectionById(int id)
         {
             return await sectionRepository.GetById(id);
+        }
+
+        private async Task<BoardDTO> VerifyIsLocked(int id)
+        {
+            var task = await GetTaskById(id);
+            var section = await sectionRepository.GetAll();
+            var boardId = section.FirstOrDefault(i => i.Id == task.SectionId).BoardId;
+            return await boardRepository.GetById(boardId);
         }
     }
 }

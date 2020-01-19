@@ -16,6 +16,8 @@ namespace TaskManager.Data.Provider.Sql.Models
         [StringLength(50)]
         public string Name { get; set; }
 
+        public bool IsLocked { get; set; }
+        
         public ICollection<SectionDb> Sections { get; set; }
     }
 }
